@@ -24,19 +24,17 @@ def create_parser():
 
     
     # training configs
-    parser.add_argument("--model_type", type=str, default="v0", help="textonly|v0|v1mp|v1sp|v0v1mp")
-    parser.add_argument("--features", type=str, default="xpath", help="xpath|class|id|style|role")
+
     parser.add_argument("--per_gpu_train_batch_size", default=128, type=int, help="training batch size")
     parser.add_argument("--val_batch_size", default=256, type=int, help="val batch size")
 
     parser.add_argument("--max_sequence_len", type=int, default=384, help="input vdom node max count")
     parser.add_argument("--num_classes", type=int, default=6, help="num_classes")
     parser.add_argument("--max_token_len", default=5, type=int, help="max token length per vdom node")
-    parser.add_argument("--max_xpath_token_len", default=32, type=int, help="max attr token length per vdom node")
 
     parser.add_argument("--lr", type=float, default=6e-4, help="peak rate of lr")
     parser.add_argument("--dropout", type=float, default=0.1, help="dropout")
-    parser.add_argument("--mask_rate", type=float, default=0.0, help="mask node rate.")
+    
     parser.add_argument("--epoch", type=int, default=30, help="epoch")
     parser.add_argument("--scheduler_type", type=str, default="cosine_with_warmup", help="See scheduler_factory.py for options")
     parser.add_argument("--warmup_factor", type=float, default=0.05, help="percentage of the training that will be LR warmup.")

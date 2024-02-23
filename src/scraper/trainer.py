@@ -3,7 +3,7 @@ import os, sys
 dir_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(dir_path)
 
-from dataset import DistributedAccessDataset, all_gather_cpu
+from dataset import DistributedAccessDataset
 from dataset_utils import LineShuffler
 from prettytable import PrettyTable
 
@@ -27,7 +27,6 @@ try:
 except ImportError:
     from tensorboardX import SummaryWriter
 
-# BlingSD Model imports
 from model import *
 from schedulers import LearningRateScheduler
 
@@ -488,7 +487,6 @@ class ContentExtractionTrainer:
         return total_params
 
     def validation(self, args):
-        val_metrics_results_list = []
         self.val_tr_loss = 0.0
         total_val_steps = 0.0
 
@@ -514,7 +512,6 @@ class ContentExtractionTrainer:
                 labels = labels.to(self.model.device).view(-1, args.max_sequence_len, args.num_classes)
                 output = self.model(batch)
                 loss, class_loss = self.loss_calculator.weighted_crossentropy(labels, output)
-                pr_result = self.loss_calculator.precision_recall_evaluation(labels, output)
                 
                 loss = loss.mean()
                 if not math.isfinite(loss.item()):
@@ -524,13 +521,11 @@ class ContentExtractionTrainer:
                     logger.info(class_loss)
                     continue
 
-            val_metrics_results_list.append(pr_result)
             self.val_tr_loss += loss.item()
             total_val_steps += 1.0
 
-        logger.info("Gathering results from all workers...")
         dist.barrier()
-        val_metrics_results_cross_worker = all_gather_cpu(val_metrics_results_list, cache_path=args.cache_dir)
+
         if is_first_worker():
             logs = {}
             validation_loss = self.val_tr_loss / total_val_steps

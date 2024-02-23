@@ -1,13 +1,14 @@
-import zipfile
-import gzip
-from tqdm import tqdm
-from tokenization import TokenizerProcessor
-from argparse import ArgumentParser
-from multiprocessing import Pool
-from api import AnnotateHtml, AnnotateHtmlApi
-import json
 import os
-
+import re
+import gzip
+import json
+import zipfile
+from tqdm import tqdm
+from functools import partial
+from multiprocessing import Pool
+from argparse import ArgumentParser
+from tokenization import TokenizerProcessor
+from api import AnnotateHtml, AnnotateHtmlApi
 
 class FeatureExtractorApplierProcessor:
     def __init__(self):
@@ -121,33 +122,23 @@ class FeatureExtractorApplierProcessor:
                         node_texts_tokens.append(tokenizer.tokenize_sequence(text))
                         node_url.append(api.url)
 
-                elif node.html_node.name in ["ol", "dl", "table"]: # List and Table element nodes
+                elif node.html_node.name in ["ol", "dl", "table"]:
                     text = node.html_node.text.strip('\r\n\t\xa0 ')
                     node_sequence.append(node_id)
                     node_texts_tokens.append(tokenizer.tokenize_sequence(text))
                     node_url.append(api.url)
 
-            # Compute Labels
             node_to_annotation = self._get_annotation_labels(api)
             labels = self._compute_labels(node_sequence, node_to_annotation)
 
-            # Chunk Document
             chunks = self._chunk_nodes(node_texts_tokens, labels, node_sequence, node_url)
 
-            # Output one row per chunk
             for chunk in chunks:
                 json_dict = {'Labels': chunk[1], 'TokenId': chunk[0], 'NodeIds': chunk[2], 'Url': chunk[3]}
                 json_str = json.dumps(json_dict, separators=(',', ':'))
                 
                 yield json_str
 
-
-import os
-import re
-import zipfile
-from collections import defaultdict
-from multiprocessing import Pool
-from functools import partial
 
 # Function to process a single file
 def process_file(cw22root_path, entry, zip):
@@ -173,6 +164,9 @@ if __name__ == "__main__":
     parser.add_argument('--path', required=True)
     args = parser.parse_args()
     
+    if not os.path.exists('data/train/'):
+        os.makedirs('data/train/')
+
     generator = FeatureExtractorApplierProcessor()
 
     cw22root_path = args.path

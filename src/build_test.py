@@ -113,7 +113,7 @@ class FeatureExtractorApplierProcessor:
                     node_texts_tokens.append(tokenizer.tokenize_sequence(text))
                     node_url.append(api.url)
 
-            elif node.html_node.name in ["ol", "dl", "table"]: # List and Table element nodes
+            elif node.html_node.name in ["ol", "dl", "table"]:
                 text = node.html_node.text.strip('\r\n\t\xa0 ')
                 node_sequence.append(node_id)
                 node_texts_tokens.append(tokenizer.tokenize_sequence(text))

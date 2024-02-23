@@ -1,7 +1,3 @@
-
-from statistics import mode
-from turtle import forward
-from pyparsing import col
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, IterableDataset
@@ -9,7 +5,6 @@ from model import ContentExtractionTextEncoder
 from arguments import create_parser
 from processing import wrapped_eval_process_fn, content_extraction_collate_fn
 import pandas as pd
-import time
 
 
 
