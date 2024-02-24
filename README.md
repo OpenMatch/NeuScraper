@@ -1,7 +1,8 @@
 # NeuScraper
 
 Source code for our paper :  
-***[Cleaner Pretraining Corpus Curation with Neural Web Scraping](https://arxiv.org/abs/2402.14652)***
+***[Cleaner Pretraining Corpus Curation with Neural Web Scraping](https://arxiv.org/abs/2402.14652)***  
+***This is a work in progress, so please wait for our incremental improvements 😊***
 
 If you find this work useful, please cite our paper  and give us a shining star 🌟
 
