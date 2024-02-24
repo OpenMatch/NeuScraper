@@ -1,6 +1,5 @@
 import torch
-from torch import log, mean, round, sum
-import numpy as np
+from torch import log, mean
 import json
 import math
 
@@ -77,67 +76,3 @@ class ContentExtractionLoss:
             loss += class_weight * weighted_ce_loss
 
         return loss.mean(), class_loss_list
-
-    def precision_recall_evaluation(self, y_true, y_pred):
-        result = {}
-        num_classes = y_pred.size()[2]
-
-        true_positives = torch.sum(y_true * round(y_pred),  (0, 1))
-        possible_positives = torch.sum(y_true, (0, 1))
-        predicted_positives = torch.sum(round(y_pred), (0, 1))
-
-        precision = true_positives / (predicted_positives + eps)
-        recall = true_positives / (possible_positives + eps)
-
-        true_positives = true_positives.int().cpu().detach().tolist()
-        possible_positives = possible_positives.int().cpu().detach().tolist()
-        predicted_positives = predicted_positives.int().cpu().detach().tolist()
-        precision = precision.cpu().detach().tolist()
-        recall = recall.cpu().detach().tolist()
-
-        for i in range(num_classes):
-            class_name = self.classes_weight_map[i][0]
-            result[class_name] = [precision[i], recall[i], true_positives[i], possible_positives[i], predicted_positives[i]]
-        return result
-
-    def merge_metrics_pr_result(self, result_list):
-        tmp_result = None
-        for result in result_list:
-            if tmp_result is None:
-                tmp_result = result
-            else:
-                for key in tmp_result:
-                    if key in result:
-                        tmp_result[key][2] += result[key][2]
-                        tmp_result[key][3] += result[key][3]
-                        tmp_result[key][4] += result[key][4]
-
-                        tmp_result[key][0] = tmp_result[key][2] / (tmp_result[key][4] + eps)
-                        tmp_result[key][1] = tmp_result[key][2] / (tmp_result[key][3] + eps)
-
-        return tmp_result
-
-    def print_result(self, result):
-        if result is None or len(result) == 0:
-            print("Evaluation result is none or contains 0 record")
-            return
-
-        print(
-            "\nAnnotation".ljust(25, " ")
-            + "Precision".ljust(15)
-            + "Recall".ljust(12)
-            + "True_Prediction".ljust(20)
-            + "Possible Positive".ljust(20)
-            + "Total_Prediction".ljust(20)
-        )
-        print("\n")
-
-        for key in result:
-            print(
-                key.ljust(25, " ")
-                + str(np.round(result[key][0], 4)).ljust(15)
-                + str(np.round(result[key][1], 4)).ljust(12)
-                + str(int(result[key][2])).ljust(20)
-                + str(int(result[key][3])).ljust(20)
-                + str(int(result[key][4])).ljust(20)
-            )

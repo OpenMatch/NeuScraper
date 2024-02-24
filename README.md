@@ -1,7 +1,7 @@
 # NeuScraper
 
 Source code for our paper :  
-***Cleaner Pretraining Corpus Curation with Neural Web Scraping***
+***[Cleaner Pretraining Corpus Curation with Neural Web Scraping](https://arxiv.org/abs/2402.14652)***
 
 If you find this work useful, please cite our paper  and give us a shining star 🌟
 
@@ -46,15 +46,15 @@ pip install -r requirements.txt
 
 **1️⃣ Download checkpoint for NeuScraper**
 
-```
-We'll release checkpoints on 🤗HuggingFace this week
+```bash
+git lfs install
+git clone https://huggingface.co/OpenMatch/neuscraper-v1-clueweb
 ```
 
 **2️⃣ Preprocess the test data, we use the** `en0001-01` **as our test set.**
 
 ```bash
-python src/build_test.py \
-		--path /path/to/clueweb22
+python src/build_test.py --path /path/to/clueweb22
 ```
 
 **3️⃣ Scraping with NeuScraper**
@@ -97,8 +97,7 @@ The results are shown as follows.
 1️⃣ **We need to preprocess the pages in Clueweb22:**
 
 ```bash
-python src/build_train.py \
-		--path /path/to/clueweb22
+python src/build_train.py --path /path/to/clueweb22
 ```
 
 This command will place the processed data in `data/train`.  

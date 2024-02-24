@@ -1,7 +1,3 @@
-
-from statistics import mode
-from turtle import forward
-from pyparsing import col
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, IterableDataset
@@ -9,7 +5,7 @@ from model import ContentExtractionTextEncoder
 from arguments import create_parser
 from processing import wrapped_eval_process_fn, content_extraction_collate_fn
 import pandas as pd
-import time
+import os
 
 
 
@@ -81,9 +77,9 @@ class ContentExtractionDeepModel(nn.Module):
     
 def eval_on_leaderboard_set_vectorized(args, model):
     thresholds = [0.1, 0.25, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
-    corpus_data_path = args.corpus_data_path
+    data_path = args.data_path
     data_process_fn = wrapped_eval_process_fn(args)
-    dataset = SamplesDataset(corpus_data_path, data_process_fn)
+    dataset = SamplesDataset(data_path, data_process_fn)
     dataloader = DataLoader(
             dataset, batch_size=args.val_batch_size, num_workers=0, collate_fn=content_extraction_collate_fn, drop_last=False
         )
@@ -146,7 +142,7 @@ def save_predictions(pred_nodes, args):
             for url, nodes in task_pred_nodes.items():
                 rows.extend([(url, int(node), task) for node in nodes])
             res_df = pd.DataFrame(rows, columns=['Url', 'TextNodeId', 'Task'])
-    res_df.to_csv('temp_data/inference_test.tsv', sep='\t', encoding='utf-8', index=False)
+    res_df.to_csv('temp/inference_test.tsv', sep='\t', encoding='utf-8', index=False)
 
 
 
@@ -154,7 +150,10 @@ if __name__ == "__main__":
     parser = create_parser()
 
     parser.add_argument("--model_path", type=str, help="model directory")
-    parser.add_argument("--corpus_data_path",type=str, help="data path")
+    parser.add_argument("--data_path",type=str, help="data path")
+
+    if not os.path.exists('temp/'):
+        os.makedirs('temp/')
 
     
     args = parser.parse_args()

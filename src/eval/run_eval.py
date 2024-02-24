@@ -8,7 +8,7 @@ if __name__ == '__main__':
     gt_df = pd.read_csv("data/test/GoldLabels.csv",lineterminator='\n').dropna()
     positive_text, negative_text = evaluator.get_primary_ground_truth_text_dicts(gt_df)
 
-    pred_df = evaluator.read_prediction_file("temp_data/inference_test.tsv")
+    pred_df = evaluator.read_prediction_file("temp/inference_test.tsv")
     pred_df = pred_df[pred_df['Task'] == 'Primary']
     text_df = pd.read_csv("data/test/TextNodes.csv",lineterminator='\n')
 
