@@ -139,6 +139,9 @@ class FeatureExtractorApplierProcessor:
                 
                 yield json_str
 
+def split_filename(filename):
+    prefix, _ = filename.split('-', 1)
+    return (prefix, filename)
 
 # Function to process a single file
 def process_file(cw22root_path, entry, zip):
@@ -146,17 +149,16 @@ def process_file(cw22root_path, entry, zip):
     name = re.sub(r'\.zip$', '', zip)
     output_file = f"data/train/{name}.json"
     cut_name = name + ".json"
-    if cut_name not in test_dataset:
-        with open(output_file, 'a', encoding='utf-8') as json_file:
-            with zipfile.ZipFile(vdom_path, 'r') as z:
-                for filename in tqdm(z.namelist()):
-                    with z.open(filename) as f:
-                        data = f.read()
-                        cw22id = filename[:-4]
-                        html_string = generator._get_html_from_warc(cw22id, cw22root_path)
-                        x = generator.Apply(data, html_string)
-                        for t in x:
-                            json_file.write(f"{t}\n")
+    with open(output_file, 'a', encoding='utf-8') as json_file:
+        with zipfile.ZipFile(vdom_path, 'r') as z:
+            for filename in tqdm(z.namelist()):
+                with z.open(filename) as f:
+                    data = f.read()
+                    cw22id = filename[:-4]
+                    html_string = generator._get_html_from_warc(cw22id, cw22root_path)
+                    x = generator.Apply(data, html_string)
+                    for t in x:
+                        json_file.write(f"{t}\n")
 
 if __name__ == "__main__":
 
@@ -171,9 +173,10 @@ if __name__ == "__main__":
 
     cw22root_path = args.path
     root = cw22root_path + "/vdom/en/en00/"
-    entries = os.listdir(root)
-    test_dataset = ["en0001-01.zip"]
+
+    with open('data/train_data_list.json', 'r') as f:
+        file_names = json.load(f)
 
     with Pool() as pool:
         process_file_partial = partial(process_file, cw22root_path)
-        pool.starmap(process_file_partial, [(entry, zip) for entry in entries for zip in os.listdir(root + entry) if zip.endswith(".zip")])
+        pool.starmap(process_file_partial, [split_filename(filename) for filename in file_names])
