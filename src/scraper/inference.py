@@ -71,7 +71,6 @@ class ContentExtractionDeepModel(nn.Module):
             return
 
         model_dict.update(pretrained_dict)
-
         model.load_state_dict(model_dict) 
 
     

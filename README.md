@@ -114,9 +114,40 @@ The training process will run for 30 epochs and take about 40 hours.
 
 
 
-## CommonCrawl Support
+## CommonCrawl Support (Beta)
 
-We will add support for CommonCrwal in two months.
+***Note:** CommonCrawl support is still a beta version and it still needs to be more efficient. Besides, neuscraper-v1 only focuses on scraping in English web pages. We are still trying our best to develop the new version, and have opened the MIT credentials. So if you want to develop a better version, do what you want!*
+
+1️⃣ **Preprocess the pages in CommonCrawl**
+
+```bash
+python src/warc/build.py --path /path/to/commoncrawl/warc
+```
+
+2️⃣ **Scraping by NeuScraper**
+
+```bash
+python scripts/commoncrawl.sh
+```
+
+3️⃣ **Get Text**
+
+```bash
+python src/warc/get_text.py
+```
+
+
+
+## Citation
+
+```
+@article{xu2024cleaner,
+  title={Cleaner Pretraining Corpus Curation with Neural Web Scraping},
+  author={Xu, Zhipeng and Liu, Zhenghao and Yan, Yukun and Liu, Zhiyuan and Xiong, Chenyan and Yu, Ge},
+  journal={arXiv preprint arXiv:2402.14652},
+  year={2024}
+}
+```
 
 
 
