@@ -116,7 +116,7 @@ The training process will run for 30 epochs and take about 40 hours.
 
 ## CommonCrawl Support (Beta)
 
-***Note:** CommonCrawl support is still a beta version and it still needs to be more efficient. Besides, neuscraper-v1 only focuses on scraping in English web pages. We are still trying our best to develop the new version, and have opened the MIT credentials. So if you want to develop a better version, do what you want!*
+***Note:** CommonCrawl support is still a beta version and it still needs to be more efficient. Besides, neuscraper-v1 only focuses on scraping in English web pages. We are still trying our best to develop the new version, and have opened the MIT license. So if you want to develop a better version, do what you want!*
 
 1️⃣ **Preprocess the pages in CommonCrawl**
 
