@@ -165,6 +165,12 @@ def process_file(filename):
                     if len(text) > 0:
                         rows_gt.append({'Url': url, 'TextNodeId': node.nodeid, 'Text': text, 'JudgmentIsPrimary': tag})
                         rows_text.append({'Url': url, 'TextNodeId': node.nodeid, 'Text': text})
+
+                elif node.html_node.name in ["ol", "dl", "table"]:
+                    text = node.html_node.text.strip('\r\n\t\xa0 ')
+                    if len(text) > 0:
+                        rows_gt.append({'Url': url, 'TextNodeId': node.nodeid, 'Text': text, 'JudgmentIsPrimary': tag})
+                        rows_text.append({'Url': url, 'TextNodeId': node.nodeid, 'Text': text})
                         
     return rows_gt, rows_text, rows_features
 

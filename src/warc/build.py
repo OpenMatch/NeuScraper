@@ -144,6 +144,11 @@ def process_file(input):
                                 if len(text) > 0:
                                     csv_writer.writerow([url, node.nodeid, text]) 
 
+                            elif node.html_node.name in ["ol", "dl", "table"]:
+                                text = node.html_node.text.strip('\r\n\t\xa0 ')
+                                if len(text) > 0:
+                                    csv_writer.writerow([url, node.nodeid, text])
+                                  
 
 
 
