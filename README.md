@@ -21,7 +21,7 @@ cd NeuScraper
 
 ClueWeb22 is the newest in the Lemur Project's ClueWeb line of datasets that support research on information retrieval, natural language processing and related human language technologies. 
 
-The ClueWeb22 datasets are distributed by Carnegie Mellon University for research purposes only. A dataset may be obtained by signing a data license agreement with Carnegie Mellon University, and paying a fee that covers the cost of distributing the dataset. For details on how to get it, please click the following link:
+The ClueWeb22 datasets are distributed by Carnegie Mellon University for research purposes only. A dataset may be obtained by signing a data license agreement with Carnegie Mellon University. For details on how to get it, please click the following link:
 
 ```bash
 https://www.lemurproject.org/clueweb22/obtain.php
