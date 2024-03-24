@@ -10,6 +10,8 @@ from warcio import ArchiveIterator
 from argparse import ArgumentParser
 from bs4 import BeautifulSoup
 import chardet
+import pycld2 as cld2
+import unicodedata
 
 
 
@@ -127,12 +129,25 @@ def process_file(input):
 
                         try:
                             html_content = raw_content.decode(encoding, errors='replace').encode('utf-8')
+                            
+                            try:
+                                _,_,details = cld2.detect(html_content)
+                            except:
+                                # cld2 doesn't like control characters
+                                # https://github.com/mikemccand/chromium-compact-language-detector/issues/22#issuecomment-435904616
+                                html_no_ctrl_chars = ''.join([l for l in html_content if unicodedata.category(l)[0] not in ['C',]])
+                                _,_,details = cld2.detect(html_no_ctrl_chars)
+
+                            if details[0][1] != 'en':
+                                continue
+                            
                             html_soup = generator.add_node_id(html_content)
 
                             api = CommonCrawlApi(html_soup=html_soup)
                             x = generator.Apply(url, api)
                             for t in x:
                                 json_file.write(f"{t}\n")
+                                
                         except:
                             #print("write error")
                             continue
