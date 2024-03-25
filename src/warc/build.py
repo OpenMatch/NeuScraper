@@ -128,7 +128,7 @@ def process_file(input):
                             continue
 
                         try:
-                            html_content = raw_content.decode(encoding, errors='replace').encode('utf-8')
+                            html_content = raw_content.encode('utf-8')
                             
                             try:
                                 _,_,details = cld2.detect(html_content)

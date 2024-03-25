@@ -72,25 +72,6 @@ python src/eval/run_eval.py
 
 
 
-## Main Result 
-
-The results are shown as follows.
-
-| **Method**     | **Acc.**  | **Prec.** | **Rec.**  | **F1**    |
-| -------------- | --------- | --------- | --------- | --------- |
-| htmlparser     | 40.94     | 40.92     | 98.95     | 57.90     |
-| bs4            | 41.07     | 41.05     | **99.94** | 58.20     |
-| html2text      | 40.09     | 39.40     | 85.40     | 53.92     |
-| boilerpipe     | 66.28     | 66.89     | 35.52     | 46.40     |
-| jusText        | 62.67     | 72.49     | 27.06     | 39.41     |
-| lxml           | 65.45     | 61.54     | 37.82     | 46.84     |
-| inscriptis     | 45.06     | 42.53     | 96.43     | 59.03     |
-| readability    | 68.26     | 72.08     | 37.01     | 48.91     |
-| trafilatura    | 70.57     | 66.60     | 56.77     | 61.30     |
-| **NeuScraper** | **86.66** | **81.15** | 88.30     | **84.58** |
-
-
-
 ## Train NeuScraper from scratch 
 
 ***Note:** Training NeuScraper from scratch needs to be done on a server equipped with 8 NVIDIA A100-40G GPUs and SSDs*
