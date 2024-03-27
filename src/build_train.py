@@ -148,7 +148,6 @@ def process_file(cw22root_path, entry, zip):
     vdom_path = cw22root_path + f"/vdom/en/en00/{entry}/{zip}"
     name = re.sub(r'\.zip$', '', zip)
     output_file = f"data/train/{name}.json"
-    cut_name = name + ".json"
     with open(output_file, 'a', encoding='utf-8') as json_file:
         with zipfile.ZipFile(vdom_path, 'r') as z:
             for filename in tqdm(z.namelist()):
