@@ -160,10 +160,10 @@ python src/warc/get_text.py
 ## Citation
 
 ```
-@article{xu2024cleaner,
+@inproceedings{xu2024cleaner,
   title={Cleaner Pretraining Corpus Curation with Neural Web Scraping},
   author={Xu, Zhipeng and Liu, Zhenghao and Yan, Yukun and Liu, Zhiyuan and Xiong, Chenyan and Yu, Ge},
-  journal={arXiv preprint arXiv:2402.14652},
+  booktitle={Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics},
   year={2024}
 }
 ```
